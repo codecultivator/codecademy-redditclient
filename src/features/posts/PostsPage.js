@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { loadPostsForSubReddits } from "./postsSlice";
 
 class PostRow extends React.Component {
   render() {
@@ -7,7 +9,7 @@ class PostRow extends React.Component {
 
     return (
       <tr>
-        <td>{post.title}</td>
+        <td>{post.data.title}</td>
       </tr>
     );
   }
@@ -17,11 +19,13 @@ class PostTable extends React.Component {
   render() {
     const filterText = this.props.filterText;
     const filteredPosts = this.props.posts.filter((post) => {
-      return post.title.toLowerCase().indexOf(filterText.toLowerCase()) !== -1;
+      return (
+        post.data.title.toLowerCase().indexOf(filterText.toLowerCase()) !== -1
+      );
     });
 
     const rows = filteredPosts.map((post) => {
-      return <PostRow post={post} key={post.id} />;
+      return <PostRow post={post} key={post.data.id} />;
     });
 
     return (
@@ -66,19 +70,38 @@ class PostsPage extends React.Component {
     filterText: "",
   };
 
+  getSubReddit = (pathname) => {
+    const subReddit = pathname.replace("/", "");
+    return subReddit == "" ? "Home" : subReddit;
+  };
+
+  componentDidMount() {
+    const subReddit = this.getSubReddit(this.props.location.pathname);
+    this.props.loadPosts(subReddit).catch((err) => console.log(err));
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.location.pathname != this.props.location.pathname) {
+      console.log("location changed", this.props.location);
+      const subReddit = this.getSubReddit(this.props.location.pathname);
+      this.props.loadPosts(subReddit).catch((err) => console.log(err));
+    }
+  }
+
   handleFilterTextChange = (filterText) => {
     this.setState({ filterText: filterText });
   };
 
   render() {
+    const { posts } = this.props.posts;
     return (
-      <div>
-        <h2>Posts</h2>
+      <div className="posts">
+        <h4>Posts</h4>
         <SearchBar
           filterText={this.state.filterText}
           onFilterTextChange={this.handleFilterTextChange}
         />
-        <PostTable posts={POSTS} filterText={this.state.filterText} />
+        <PostTable posts={posts} filterText={this.state.filterText} />
       </div>
     );
   }
@@ -88,9 +111,12 @@ PostTable.propTypes = {
   posts: PropTypes.array.isRequired,
 };
 
-const POSTS = [
-  { id: 1, title: "Posting One" },
-  { id: 2, title: "Posting Two" },
-];
+const mapStateToProps = (state) => ({
+  posts: state.posts,
+});
 
-export default PostsPage;
+const mapDispatchToProps = (dispatch) => ({
+  loadPosts: (subReddit) => dispatch(loadPostsForSubReddits(subReddit)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostsPage);
