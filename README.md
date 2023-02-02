@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9631e44a-9a76-49f4-a3c3-d534ec1c1c44/deploy-status)](https://app.netlify.com/sites/luminous-sprite-c30a50/deploys)
+
 # Reddit Client
 
 This repo was created in response to the [CodeCademy](https://www.codecademy.com/) **Portfolio Project: Reddit Client** challenge project I encountered along the way through the _Full Stack Engineer_ course.
