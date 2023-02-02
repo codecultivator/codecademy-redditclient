@@ -6,12 +6,18 @@ import PostsPage from "../features/posts/PostsPage";
 function App() {
   return (
     <div className="container-fluid">
-      <Router>
-        <SubReddits></SubReddits>
-        <Switch>
-          <Route path="/:subReddit?" component={PostsPage}></Route>
-        </Switch>
-      </Router>
+      <div className="row gx-5">
+        <Router>
+          <div className="col-3">
+            <SubReddits></SubReddits>
+          </div>
+          <div className="col-9">
+            <Switch>
+              <Route path="/:subReddit?" component={PostsPage}></Route>
+            </Switch>
+          </div>
+        </Router>
+      </div>
     </div>
   );
 }

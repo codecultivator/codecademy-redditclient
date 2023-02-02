@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loadPostsForSubReddits } from "./postsSlice";
 
+// todo: rework for function components
 class PostRow extends React.Component {
   render() {
     const post = this.props.post;
@@ -30,11 +31,6 @@ class PostTable extends React.Component {
 
     return (
       <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-          </tr>
-        </thead>
         <tbody>{rows}</tbody>
       </table>
     );
@@ -53,14 +49,18 @@ class SearchBar extends React.Component {
 
   render() {
     return (
-      <form>
-        <input
-          type="text"
-          placeholder="Search..."
-          value={this.props.filterText}
-          onChange={this.handleFilterTextChange}
-        />
-      </form>
+      <div className="mb-1 row">
+        <label htmlFor="filterPage" className="col-sm-1 col-form-label">Filter:</label>
+        <div className="col-sm-3">
+          <input
+            type="text"
+            name="filterPage"
+            className="form-control"
+            value={this.props.filterText}
+            onChange={this.handleFilterTextChange}
+          />
+        </div>
+      </div>
     );
   }
 }
@@ -95,14 +95,17 @@ class PostsPage extends React.Component {
   render() {
     const { posts } = this.props.posts;
     return (
-      <div className="posts">
-        <h4>Posts</h4>
-        <SearchBar
-          filterText={this.state.filterText}
-          onFilterTextChange={this.handleFilterTextChange}
-        />
-        <PostTable posts={posts} filterText={this.state.filterText} />
-      </div>
+      <React.Fragment>
+        <div className="row">
+          <SearchBar
+            filterText={this.state.filterText}
+            onFilterTextChange={this.handleFilterTextChange}
+          />
+        </div>
+        <div className="row">
+          <PostTable posts={posts} filterText={this.state.filterText} />
+        </div>
+      </React.Fragment>
     );
   }
 }
