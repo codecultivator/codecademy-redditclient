@@ -2,7 +2,12 @@
   "name": "ps-redux",
   "description": "React and Redux sample app for codecademy fullstack dev course",
   "scripts": {
-    "start": "webpack serve --config webpack.config.dev.js --port 3000"
+    "start": "webpack serve --config webpack.config.dev.js --port 3000",
+    "clean:build": "rimraf ./build && mkdir build",
+    "prebuild": "run-p clean:build",
+    "build": "webpack --config webpack.config.prod.js",
+    "postbuild": "run-p serve:build",
+    "serve:build": "http-server ./build"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.1",
@@ -44,7 +49,7 @@
     "postcss-loader": "6.1.1",
     "react-test-renderer": "17.0.2",
     "redux-mock-store": "1.5.4",
-    "rimraf": "3.0.2",
+    "rimraf": "^3.0.2",
     "style-loader": "3.0.0",
     "webpack": "5.74.0",
     "webpack-bundle-analyzer": "4.4.2",
