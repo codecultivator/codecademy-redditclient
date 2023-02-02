@@ -29,3 +29,6 @@ npm install
 ```
 npm start
 ```
+
+## Demo
+Checkout the [live demo here](https://63dc3cb8b3a5414f5e8442aa--luminous-sprite-c30a50.netlify.app)!
