@@ -1,4 +1,4 @@
-# Find Your Hat
+# Reddit Client
 
 This repo was created in response to the [CodeCademy](https://www.codecademy.com/) **Portfolio Project: Reddit Client** challenge project I encountered along the way through the _Full Stack Engineer_ course.
 
@@ -25,5 +25,5 @@ npm install
 ## Usage
 
 ```
-node main.js
+npm start
 ```
